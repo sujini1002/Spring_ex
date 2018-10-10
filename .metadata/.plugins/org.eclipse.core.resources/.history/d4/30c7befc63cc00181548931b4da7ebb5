@@ -1,0 +1,4 @@
+
+public class MemberNotFoundException extends Exception {
+
+}
