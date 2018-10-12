@@ -9,11 +9,21 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 
 public class MainForSpring {
 	
+	//static String[] ctxs = {"classpath:appCtx.xml","classpath:appCtx2.xml","classpath:appCtx3.xml"};
 	private static ApplicationContext ctx; //static 변수
 
 	public static void main(String[] args) throws IOException {
 		
+		
 		ctx = new GenericXmlApplicationContext("classpath:appCtx.xml");
+		
+		/*scope="prototype"을 확인하려는 문장
+		 * System.out.println("객체생성-라이프 사이클 확인");
+		System.out.println("-----------------");
+		MemberDao mdao1 = ctx.getBean("memberDao",MemberDao.class);
+		MemberDao mdao2 = ctx.getBean("memberDao",MemberDao.class);
+		
+		System.out.println("비교 : mdao1 == mdao2 ==>"+(mdao1==mdao2));*/
 		
 		
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

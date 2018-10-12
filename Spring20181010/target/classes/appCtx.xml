@@ -1,18 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
- <bean id="memberDao" class="spring.MemberDao" />
- <bean id="memberRegSvc" class="spring.MemberRegisterService">
- 	<constructor-arg ref="memberDao"/>
- </bean>
- <bean id="changePwSvc" class="spring.ChangePasswordService">
- 	<constructor-arg ref="memberDao"/>
- </bean>
- 
- 
+	<context:annotation-config /> <!-- autowire="byType" 필요없다 -->
+	
+	<bean id="memberDao1" class="spring.MemberDao">
+		<qualifier value="select"/>
+	</bean>
+	
+	<bean id="guestDao" class="spring.GuestDao">
+		
+	</bean>
+	<!-- scope="prototype" -->
+	
+	<!-- <import resource="classpath:appCtx2.xml"/> <import resource="classpath:appCtx3.xml"/> -->
+	<!-- 주입하려는 memberDao는 주입상태에서 없어도 스프링이 자동으로 memberDao를 만들어 주입해준다.
+		객체를 생성하는 과정에서 주입하려는 객체를 주입시킨다.
+	 -->
+	<bean id="memberRegSvc" class="spring.MemberRegisterService" />
+	<!-- <bean id="memberRegSvc" class="spring.MemberRegisterService" autowire="byType" 
+		/> -->
+	<!-- p:memberDao-ref="memberDao" -->
+	<!-- <constructor-arg ref="memberDao"/> 똑같은 문장 <constructor-arg> <ref bean="memberDao"/> 
+		</constructor-arg> 프로퍼티 주입 방식 <property name="memberDao" ref="memberDao" 
+		/> 같은 문장 <property name="memberDao"> <ref bean="memberDao"/> </property> 
+		<property name="memberDao"> <bean class="spring.MemberDao"/> </property> -->
+
+	<bean id="changePwSvc" class="spring.ChangePasswordService" />
+		<!-- <constructor-arg ref="memberDao" /> -->
+		<!-- <constructor-arg> <bean class="spring.MemberDao"></bean> </constructor-arg> -->
+
+
+
 
 
 </beans>

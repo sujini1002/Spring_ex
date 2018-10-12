@@ -3,7 +3,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MemberDao {
+public class MemberDao  implements Dao{
 	private static long nextId = 0;
 	private Map<String, Member> map = new HashMap<>();
 

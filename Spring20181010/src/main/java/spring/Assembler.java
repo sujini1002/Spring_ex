@@ -9,8 +9,9 @@ public class Assembler {
 		//생성
 		memberDao = new MemberDao();
 		//       생성                                              주입
-		regSvc = new MemberRegisterService(memberDao);
-		pwdSvc = new ChangePasswordService(memberDao);
+		regSvc = new MemberRegisterService();
+		pwdSvc = new ChangePasswordService();
+		
 	}
 	
 	//객체 반환
