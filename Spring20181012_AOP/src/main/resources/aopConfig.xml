@@ -1,0 +1,28 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+	공통 기능을 제공할 클래스를 빈으로 등록
+	<bean id="exeTimeAspect" class="aop.ExeTimeAspect" />
+	<bean id="cal1" class="aop.RecCalcurator"/>
+	<bean id="cal2" class="aop.CalcuratorImp"/>
+	
+	aop설정
+	aop:config안에 여러개 aop등록 가능
+	<aop:config>
+		<aop:aspect id="measureAspect" ref="exeTimeAspect" >
+		aop패키지및 하위패키지 안에 있는 모든 메서드 지정
+			<aop:pointcut id="publicMethod" expression="execution(public * aop..*(..))"/>
+			<aop:around  pointcut-ref="publicMethod" method="measure"/>
+		</aop:aspect>
+	</aop:config>
+	<aop:aspectj-autoproxy proxy-target-class="true"/>구현한 클래스 타입으로도 객체 생성가능하게 하는 기능
+	
+	
+	
+</beans> 
