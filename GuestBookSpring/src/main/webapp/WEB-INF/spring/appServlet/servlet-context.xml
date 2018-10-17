@@ -23,6 +23,10 @@
 	
 	<context:component-scan base-package="com.bitcamp.gb" />
 	
-	
-	
+	<!-- DAO 빈 등록 -->
+	<beans:bean id="messageDao" class="com.bitcamp.gb.dao.MessageDao"></beans:bean>
+	<!-- 서비스 빈 등록 -->
+	<beans:bean id="getMessageListService" class="com.bitcamp.gb.service.GetMessageListService"></beans:bean>
+	<beans:bean id="writeMessageService" class="com.bitcamp.gb.service.WriteMessageService"></beans:bean>
+	<beans:bean id="deleteMessageService" class="com.bitcamp.gb.service.DeleteMessageService"></beans:bean>
 </beans:beans>

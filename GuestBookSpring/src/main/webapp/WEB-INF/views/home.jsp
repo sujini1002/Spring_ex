@@ -6,7 +6,8 @@
 </head>
 <body>
 <h1>
-	<a href="/guestbook/list">GuestBook</a>
+	<a href="guest/list">GuestBook</a><br>
+	<a href="guest/write">write Message</a>
 </h1>
 
 

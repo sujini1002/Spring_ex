@@ -3,20 +3,17 @@ package com.bitcamp.gb.service;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.bitcamp.gb.dao.MessageDao;
 import com.bitcamp.gb.jdbc.ConnectionProvider;
 import com.bitcamp.gb.jdbc.JdbcUtil;
 import com.bitcamp.gb.model.Message;
 
 public class DeleteMessageService {
-	private static DeleteMessageService instance = new DeleteMessageService();
-
-	public static DeleteMessageService getInstance() {
-		return instance;
-	}
-
-	private DeleteMessageService() {
-	}
+	
+	@Autowired
+	MessageDao messageDao;
 
 	public void deleteMessage(int messageId, String password)
 			throws ServiceException, InvalidMessagePassowrdException, MessageNotFoundException {
@@ -24,7 +21,6 @@ public class DeleteMessageService {
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
-			MessageDao messageDao = MessageDao.getInstance();
 			Message message = messageDao.select(conn, messageId);
 			if (message == null) {
 				throw new MessageNotFoundException("메시지가 없습니다:" + messageId);

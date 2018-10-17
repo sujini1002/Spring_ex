@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.bitcamp.gb.dao.MessageDao;
 import com.bitcamp.gb.jdbc.ConnectionProvider;
 import com.bitcamp.gb.jdbc.JdbcUtil;
@@ -13,10 +15,10 @@ import com.bitcamp.gb.model.MessageListView;
 
 public class GetMessageListService {
 	
-	MessageDao messageDao = MessageDao.getInstance();
+	@Autowired
+	MessageDao messageDao;
 	
-	private GetMessageListService() {
-	}
+
 
 	// 한 페이지에 보여줄 메시지의 수
 	private static final int MESSAGE_COUNT_PER_PAGE = 3;

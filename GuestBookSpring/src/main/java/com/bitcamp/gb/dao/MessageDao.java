@@ -14,16 +14,7 @@ import com.bitcamp.gb.model.Message;
 
 public class MessageDao {
 
-	private static MessageDao dao = new MessageDao();
-
-	public static MessageDao getInstance() {
-		return dao;
-	}
-
-	private MessageDao() {
-
-	}
-
+	
 	public int insert(Connection conn, Message message) throws SQLException {
 		PreparedStatement pstmt = null;
 		// int resultCnt = 0;
