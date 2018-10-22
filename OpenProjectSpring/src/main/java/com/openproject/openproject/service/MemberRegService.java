@@ -8,21 +8,26 @@ import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.openproject.openproject.dao.JdbcTemplateMemberDao;
 import com.openproject.openproject.dao.MemberDao;
 import com.openproject.openproject.jdbc.ConnectionProvider;
 import com.openproject.openproject.jdbc.JdbcUtil;
 import com.openproject.openproject.model.MemberInfo;
 
 public class MemberRegService {
-	@Autowired
-	private MemberDao memberDao;
+	//@Autowired
+	//private MemberDao memberDao;
 	
-	private Connection conn;
+	@Autowired
+	private JdbcTemplateMemberDao memberDao;
+	
+	
 	
 	public int memberReg(MemberInfo memberInfo,HttpServletRequest request) throws SQLException, IllegalStateException, IOException {
 		
-		conn = ConnectionProvider.getConnection();
+		
 		int resultCnt = 0;
 		
 		
@@ -41,22 +46,10 @@ public class MemberRegService {
 			memberInfo.getUserImg().transferTo(new File(dir, imgName));
 			//DB에 저장할 이름 SET
 			memberInfo.setUserPhoto(imgName); 
-			
-			
 		}
-		
-		
-		try {
-			conn.setAutoCommit(false);
-			resultCnt = memberDao.insertMemberInfo(conn,memberInfo);
-			conn.commit();
-		} catch (Exception e) {
-			JdbcUtil.rollback(null);
-			throw e;
-		}finally {
-			conn.setAutoCommit(true); //컨넥션 풀을 사용하면서 대시상태로 가기 때문에 속성을 초기화 값으로 바꿔야 한다.
-			JdbcUtil.close(conn);
-		}
+		System.out.println(memberInfo);
+		resultCnt = memberDao.insertMemberInfo(memberInfo);
+		 
 		return resultCnt;
 	}
 }

@@ -45,7 +45,6 @@ public class MemberRegController {
 			}
 		} catch (SQLException e) {
 			modelAndView.setViewName("member/regFail");
-			e.printStackTrace();
 		}
 		return modelAndView;
 	}

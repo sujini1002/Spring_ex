@@ -3,37 +3,81 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/**" />
+			<exclude-mapping path="/" />
+			<exclude-mapping path="/member/login" />
+			<exclude-mapping path="/member/logout" />
+			<exclude-mapping path="/member/memberReg" />
+			<beans:bean
+				class="com.openproject.openproject.interceptor.AuthCheckInterceptor" />
+		</interceptor>
+	</interceptors>
 	
+	<!-- DataSource 등록 -->
+	<beans:bean id="dataSource"
+		class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<beans:property name="driverClass"
+			value="oracle.jdbc.driver.OracleDriver" />
+		<beans:property name="jdbcUrl"
+			value="jdbc:oracle:thin:@localhost:1521:orcl" />
+		<beans:property name="user" value="scott" />
+		<beans:property name="password" value="1234" />
+	</beans:bean>
+	<!-- jdbcTemplate 빈 등록 -->
+	<beans:bean id="jdbcTemplate"
+		class="org.springframework.jdbc.core.JdbcTemplate"
+		p:dataSource-ref="dataSource" />
+	
+	<!-- DispatcherServlet Context: defines this servlet's request-processing 
+		infrastructure -->
+
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 	<!-- css 맵핑 하기 -->
 	<resources mapping="/css/**" location="/css/" />
-	<!-- upload파일  -->
+	<!-- upload파일 -->
 	<resources mapping="/uploadfile/**" location="/uploadfile/" />
-	
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+		in the /WEB-INF/views directory -->
+	<beans:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-	
-	<context:component-scan base-package="com.openproject.openproject" />
-	
+
+	<context:component-scan
+		base-package="com.openproject.openproject" />
+
 	<!-- MemberDao 등록 -->
-	<beans:bean id="MemberDao" class="com.openproject.openproject.dao.MemberDao"/>
+	<beans:bean id="MemberDao"
+		class="com.openproject.openproject.dao.MemberDao" />
+	<!-- JdbcTemplateMemberDao 등록 -->
+	<beans:bean id="jdbcTemplateMemberDao" class="com.openproject.openproject.dao.JdbcTemplateMemberDao"/>
+	<!-- JdbcTemplateMessageDao 등록 -->
+	<beans:bean id="jdbcTemplateMessageDao" class="com.openproject.openproject.gb_dao.JdbcTemplateMessageDao"/>
 	<!-- Service 등록 -->
-	<beans:bean class="com.openproject.openproject.service.MemberRegService"/>
-	
-	
-	
+	<beans:bean
+		class="com.openproject.openproject.service.MemberRegService" />
+	<beans:bean id="memberLoginService"
+		class="com.openproject.openproject.service.MemberLoginService" />
+	<beans:bean id="memberListService"
+		class="com.openproject.openproject.service.MemberListService" />
+	<beans:bean id="guestBookWriteService" class="com.openproject.openproject.gb_service.GuestBookWriteService"/>
+	<beans:bean id="guestBookListService" class="com.openproject.openproject.gb_service.GuestBookListService"/>
+	<beans:bean id="guestBookDeleteService" class="com.openproject.openproject.gb_service.GuestBookDeleteService"/>
+	<beans:bean id="guestBookViewController" class="com.openproject.openproject.gb_service.GuestBookViewService"/>
 	<!-- 파일업로드 처리를 위한 multipartResolver bean 등록 -->
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

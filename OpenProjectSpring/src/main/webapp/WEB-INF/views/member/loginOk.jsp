@@ -4,8 +4,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="../css/default.css">
 </head>
 <body>
- 로그인 처리 페이지 입니다. (post 처리) : ${userId} : ${password} 
+<%@ include file="/WEB-INF/views/common/header.jsp" %>
+세션확익 : ${loginInfo}
 </body>
 </html>
