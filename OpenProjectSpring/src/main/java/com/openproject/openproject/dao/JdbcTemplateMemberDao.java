@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.openproject.openproject.jdbc.JdbcUtil;
 import com.openproject.openproject.model.MemberInfo;
@@ -20,6 +21,7 @@ public class JdbcTemplateMemberDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate; //컨텍션,close(),PrepareStatement 필요 없음
 	
+	@Transactional
 	public int insertMemberInfo(MemberInfo memberInfo) throws SQLException {
 		int resultCnt = 0;
 		String insert_sql = "insert into member_spring values(?,?,?,?)";
@@ -48,6 +50,20 @@ public class JdbcTemplateMemberDao {
 		
 		return members;
 		
+	}
+	@Transactional
+	public int updateMember(MemberInfo memberInfo) {
+		String sql  = "update member_spring set userpw = ? , username = ? ,userImg = ? where userid = ?";
+		int resultCnt = jdbcTemplate.update(sql,memberInfo.getUserPw(),
+											memberInfo.getUserName(),memberInfo.getUserPhoto(),memberInfo.getUserId());
+		return resultCnt;
+	}
+	
+	@Transactional
+	public int deleteMember(String userId) {
+		String sql = "delete from member_spring where userid = ?";
+		int resultCnt = jdbcTemplate.update(sql, userId);
+		return resultCnt;
 	}
 
 

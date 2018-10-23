@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.openproject.openproject.gb_model.Message;
 
@@ -21,6 +22,7 @@ public class JdbcTemplateMessageDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	@Transactional
 	public int insertMessage(Message message) throws Exception {
 		String sql = "insert into member_guest values(msg_id.nextval,?,?,?)";
 		
@@ -43,6 +45,7 @@ public class JdbcTemplateMessageDao {
 	Number keyValue = keyholder.getKey();
 	message.setMessageId(keyValue.intValue());
 	return resultCnt;*/
+
 	public List<Message> selectList(int firstRow, int endRow) throws SQLException {
 
 		String sql = "select messageid, userid, password, message from ( "
@@ -59,7 +62,8 @@ public class JdbcTemplateMessageDao {
 		Integer count = jdbcTemplate.queryForObject(sql, Integer.class);
 		return count;
 	}
-
+	
+	@Transactional
 	public int delete(int messageId) {
 
 		String sql = "delete from member_guest where messageid = ?";

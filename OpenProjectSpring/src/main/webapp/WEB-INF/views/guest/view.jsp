@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Guest Book</title>
-<link rel="stylesheet" href="/css/default.css">
+<link rel="stylesheet" href="<%=request.getContextPath() %>/css/default.css">
 </head>
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>

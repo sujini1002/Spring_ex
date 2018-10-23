@@ -13,7 +13,7 @@ public class GuestBookDeleteService {
 	@Autowired
 	private JdbcTemplateMessageDao jdbcTemplateMessageDao;
 	
-	public void deleteMessage(int messageId, String password)
+	public void deleteMessage(int messageId,String password)
 			throws ServiceException, InvalidMessagePassowrdException, MessageNotFoundException {
 			
 		Message message = jdbcTemplateMessageDao.select(messageId);

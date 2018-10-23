@@ -9,7 +9,7 @@
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <form  method="post">
-		아이디: <input type="text" name=userId value="${loginInfo.userId}" /> <br /> 암호: <input
+		아이디: <input type="text" name=userId value="${loginInfo.userId}" readonly/> <br /> 암호: <input
 			type="password" name="password" /> <br /> 메시지:
 		<textarea name="message" cols="30" row="3"></textarea>
 		<br /> 
