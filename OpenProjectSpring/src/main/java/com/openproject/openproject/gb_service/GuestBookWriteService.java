@@ -13,6 +13,7 @@ public class GuestBookWriteService {
 	public int insert(Message message) throws Exception {
 		int resultCnt = 0;
 		resultCnt = jdbcTemplateMessageDao.insertMessage(message);
+		System.out.println("messageId : "+message.getMessageId());
 		return resultCnt;
 	}
 }

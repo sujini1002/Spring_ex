@@ -15,12 +15,14 @@
 	
 	 <c:if test="${!listView.isEmpty()}">
 		<c:forEach var="message" items="${listView.messageList}">
-			<div>
+			<div style="border: 1px solid #333333">
 			<ul>
 				<li>${message.messageId}</li>
 				<li>${message.userId}</li>
 				<li>${message.message}</li>
+				<c:if test="${loginInfo.userId eq message.userId}">
 				<a href="delete?id=${message.messageId}">[삭제하기]</a>
+				</c:if>
 				<a href="view/${message.messageId}">[상세보기]</a>
 			</ul>
 			</div>

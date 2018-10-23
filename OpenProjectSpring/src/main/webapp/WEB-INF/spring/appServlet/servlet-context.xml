@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+<beans:beans
+	xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
@@ -19,22 +20,9 @@
 				class="com.openproject.openproject.interceptor.AuthCheckInterceptor" />
 		</interceptor>
 	</interceptors>
-	
-	<!-- DataSource 등록 -->
-	<beans:bean id="dataSource"
-		class="com.mchange.v2.c3p0.ComboPooledDataSource">
-		<beans:property name="driverClass"
-			value="oracle.jdbc.driver.OracleDriver" />
-		<beans:property name="jdbcUrl"
-			value="jdbc:oracle:thin:@localhost:1521:orcl" />
-		<beans:property name="user" value="scott" />
-		<beans:property name="password" value="1234" />
-	</beans:bean>
-	<!-- jdbcTemplate 빈 등록 -->
-	<beans:bean id="jdbcTemplate"
-		class="org.springframework.jdbc.core.JdbcTemplate"
-		p:dataSource-ref="dataSource" />
-	
+
+
+
 	<!-- DispatcherServlet Context: defines this servlet's request-processing 
 		infrastructure -->
 
@@ -63,10 +51,26 @@
 	<!-- MemberDao 등록 -->
 	<beans:bean id="MemberDao"
 		class="com.openproject.openproject.dao.MemberDao" />
+	<!-- DataSource 등록 -->
+	<beans:bean id="dataSource"
+		class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<beans:property name="driverClass"
+			value="oracle.jdbc.driver.OracleDriver" />
+		<beans:property name="jdbcUrl"
+			value="jdbc:oracle:thin:@localhost:1521:orcl" />
+		<beans:property name="user" value="scott" />
+		<beans:property name="password" value="1234" />
+	</beans:bean>
+	<!-- jdbcTemplate 빈 등록 -->
+	<beans:bean id="jdbcTemplate"
+		class="org.springframework.jdbc.core.JdbcTemplate"
+		p:dataSource-ref="dataSource" />
 	<!-- JdbcTemplateMemberDao 등록 -->
-	<beans:bean id="jdbcTemplateMemberDao" class="com.openproject.openproject.dao.JdbcTemplateMemberDao"/>
+	<beans:bean id="jdbcTemplateMemberDao"
+		class="com.openproject.openproject.dao.JdbcTemplateMemberDao" />
 	<!-- JdbcTemplateMessageDao 등록 -->
-	<beans:bean id="jdbcTemplateMessageDao" class="com.openproject.openproject.gb_dao.JdbcTemplateMessageDao"/>
+	<beans:bean id="jdbcTemplateMessageDao"
+		class="com.openproject.openproject.gb_dao.JdbcTemplateMessageDao" />
 	<!-- Service 등록 -->
 	<beans:bean
 		class="com.openproject.openproject.service.MemberRegService" />
@@ -74,10 +78,15 @@
 		class="com.openproject.openproject.service.MemberLoginService" />
 	<beans:bean id="memberListService"
 		class="com.openproject.openproject.service.MemberListService" />
-	<beans:bean id="guestBookWriteService" class="com.openproject.openproject.gb_service.GuestBookWriteService"/>
-	<beans:bean id="guestBookListService" class="com.openproject.openproject.gb_service.GuestBookListService"/>
-	<beans:bean id="guestBookDeleteService" class="com.openproject.openproject.gb_service.GuestBookDeleteService"/>
-	<beans:bean id="guestBookViewController" class="com.openproject.openproject.gb_service.GuestBookViewService"/>
+	<beans:bean id="guestBookWriteService"
+		class="com.openproject.openproject.gb_service.GuestBookWriteService" />
+	<beans:bean id="guestBookListService"
+		class="com.openproject.openproject.gb_service.GuestBookListService" />
+	<beans:bean id="guestBookDeleteService"
+		class="com.openproject.openproject.gb_service.GuestBookDeleteService" />
+	<beans:bean id="guestBookViewService"
+		class="com.openproject.openproject.gb_service.GuestBookViewService" />
+		
 	<!-- 파일업로드 처리를 위한 multipartResolver bean 등록 -->
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

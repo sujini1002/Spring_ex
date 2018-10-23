@@ -10,6 +10,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import com.openproject.openproject.gb_model.Message;
 
@@ -20,10 +23,26 @@ public class JdbcTemplateMessageDao {
 
 	public int insertMessage(Message message) throws Exception {
 		String sql = "insert into member_guest values(msg_id.nextval,?,?,?)";
+		
 		int resultCnt = jdbcTemplate.update(sql, message.getUserId(), message.getPassword(), message.getMessage());
 		return resultCnt;
 	}
-
+	/*KeyHolder keyholder = new GeneratedKeyHolder();
+	int resultCnt = jdbcTemplate.update(new PreparedStatementCreator() {
+		
+		@Override
+		public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, message.getUserId());
+			pstmt.setString(2, message.getPassword());
+			pstmt.setString(3, message.getMessage());
+			
+			return pstmt;
+		}
+	},keyholder);
+	Number keyValue = keyholder.getKey();
+	message.setMessageId(keyValue.intValue());
+	return resultCnt;*/
 	public List<Message> selectList(int firstRow, int endRow) throws SQLException {
 
 		String sql = "select messageid, userid, password, message from ( "
