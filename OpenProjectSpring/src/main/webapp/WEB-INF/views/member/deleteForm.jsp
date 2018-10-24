@@ -10,7 +10,7 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <h1>삭제 확인</h1>
 	<form  method="post">
-		<input type="text" name="userId"value="${userId}" readonly/> <br>
+		<input type="text" name="userId" value="${userId}" readonly/> <br>
 		메시지를 삭제하시려면 암호를입력하세요:<br /> 
 		암호: <input type="password" name="userPw" /> <br />
 		 <input type="submit" value="탈퇴하기" />

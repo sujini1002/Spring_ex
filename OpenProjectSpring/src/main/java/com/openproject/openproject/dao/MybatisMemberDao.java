@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,47 +17,37 @@ import org.springframework.transaction.annotation.Transactional;
 import com.openproject.openproject.jdbc.JdbcUtil;
 import com.openproject.openproject.model.MemberInfo;
 
-public class JdbcTemplateMemberDao {
+public class MybatisMemberDao {
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate; //컨텍션,close(),PrepareStatement 필요 없음
+	private SqlSessionTemplate SqlSessionTemplate;
+	private String mapperPath = "com.openproject.openproject.mapper.mybatis.MemberMapper";
 	
 	@Transactional
 	public int insertMemberInfo(MemberInfo memberInfo) throws SQLException {
-		int resultCnt = 0;
-		String insert_sql = "insert into member_spring values(?,?,?,?)";
 		
-		resultCnt=jdbcTemplate.update(insert_sql,memberInfo.getUserId(),memberInfo.getUserPw(),
-							memberInfo.getUserName(),memberInfo.getUserPhoto());
-		return resultCnt;
+		return SqlSessionTemplate.update(mapperPath+".insertMember", memberInfo);
 	}
 
 
-	public MemberInfo getMemberInfo(String id) throws SQLException {
-
-		String sql = "select * from member_spring where userid = ?";
+	public MemberInfo getMemberInfo(String userid) throws SQLException {
 		
-		System.out.println("다오 :"+id);
-		
-		List<MemberInfo> members = jdbcTemplate.query(sql, new MemberRowMapper(),id);
-
-		return members.isEmpty()?null:members.get(0);
+		return  SqlSessionTemplate.selectOne(mapperPath+".selectById",userid);
 	}
 	
-	public List<MemberInfo> memberList(Connection conn) throws SQLException{
+	public List<MemberInfo> memberList() throws SQLException{
 		
 		List<MemberInfo> list = new ArrayList<>();
 		
-		String sql = "select * from member_spring";
-		List<MemberInfo> members = jdbcTemplate.query(sql, new MemberRowMapper());
-		
-		return members;
+		list = SqlSessionTemplate.selectList(mapperPath+".selectByList");
+		return list;
 		
 	}
+	/*
 	@Transactional
 	public int updateMember(MemberInfo memberInfo) {
-		String sql  = "update member_spring set userpw = ? , username = ? ,userPhoto = ? where userid = ?";
-		int resultCnt = jdbcTemplate.update(sql,memberInfo.getUserPw(),
+		String sql  = "update member_spring set userpw = ? , username = ? ,userImg = ? where userid = ?";
+		int resultCnt = SqlSessionTemplate.update(sql,memberInfo.getUserPw(),
 											memberInfo.getUserName(),memberInfo.getUserPhoto(),memberInfo.getUserId());
 		return resultCnt;
 	}
@@ -66,7 +57,7 @@ public class JdbcTemplateMemberDao {
 		String sql = "delete from member_spring where userid = ?";
 		int resultCnt = jdbcTemplate.update(sql, userId);
 		return resultCnt;
-	}
+	}*/
 
 
 }

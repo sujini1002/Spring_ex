@@ -1,4 +1,4 @@
-package com.openproject.openproject.controller;
+ package com.openproject.openproject.controller;
 
 import java.sql.SQLException;
 
@@ -28,7 +28,7 @@ public class MemberDeleteController {
 	@RequestMapping(method=RequestMethod.POST)
 	public String delete(@RequestParam("userId")String userId,@RequestParam("userPw")String userPw) {
 		int resultCnt = 0;
-		String url = "redirect:/member/list";
+		String url = "redirect:/member/logout";
 		try {
 			resultCnt = service.deleteMember(userId, userPw);
 			if(resultCnt <1) {

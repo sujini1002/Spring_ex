@@ -49,6 +49,12 @@
 
 	<context:component-scan
 		base-package="com.openproject.openproject" />
+	<!-- spring - myBatis 연동 설정 -->
+	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<beans:property name="dataSource" ref="dataSource" />
+		<beans:property name="mapperLocations"
+			value="classpath:com/openproject/openproject/mapper/mybatis/*.xml" />
+	</beans:bean>
 
 	<!-- MemberDao 등록 -->
 	<beans:bean id="MemberDao"
@@ -79,8 +85,14 @@
 	<!-- JdbcTemplateMessageDao 등록 -->
 	<beans:bean id="jdbcTemplateMessageDao"
 		class="com.openproject.openproject.gb_dao.JdbcTemplateMessageDao" />
+	<!-- sqlSessionTemplate 빈 등록 -->
+	<beans:bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<beans:constructor-arg index="0" ref="sqlSessionFactory"/>
+	</beans:bean>
+	<beans:bean id="mybatisMemberDao" class="com.openproject.openproject.dao.MybatisMemberDao"/>
 	<!-- Service 등록 -->
-	<beans:bean
+	<beans:bean id="memberRegService"
 		class="com.openproject.openproject.service.MemberRegService" />
 	<beans:bean id="memberLoginService"
 		class="com.openproject.openproject.service.MemberLoginService" />

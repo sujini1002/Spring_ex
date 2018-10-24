@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.openproject.openproject.dao.MemberDaoInterface">
+	<insert id="insertMemberInfo"
+		parameterType="com.openproject.openproject.model.MemberInfo"
+		useGeneratedKeys="true" keyProperty="idx"
+	>
+		insert into member_spring 
+		values(#{userId},#{userPw},#{userName},#{userPhoto})
+	</insert>
+	
+	<select id="getMemberInfo" resultType="com.openproject.openproject.model.MemberInfo">
+		select * from member_spring where userid = #{id}
+	</select>
+	
+	<select id="selectByList" resultType="com.openproject.openproject.model.MemberInfo">
+		select * from member_spring
+	</select>
+	<update id="updateMember" parameterType="com.openproject.openproject.model.MemberInfo">
+		update member_spring set  userpw = #{userPw}, username = #{userName},
+			userphoto = #{userPhoto} where userid = #{userId}
+	</update>
+	<delete id="deleteMember">
+		delete from member_spring where userid = #{id}
+	</delete>
+</mapper>

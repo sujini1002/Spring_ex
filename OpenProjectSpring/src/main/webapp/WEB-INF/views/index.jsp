@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta>
-<link rel="stylesheet" href="css/default.css">
+<link rel="stylesheet" href="<%=request.getContextPath() %>/css/default.css">
 <title>Insert title here</title>
 </head>
 <body>
