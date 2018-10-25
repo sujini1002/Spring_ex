@@ -56,9 +56,6 @@
 			value="classpath:com/openproject/openproject/mapper/mybatis/*.xml" />
 	</beans:bean>
 
-	<!-- MemberDao 등록 -->
-	<beans:bean id="MemberDao"
-		class="com.openproject.openproject.dao.MemberDao" />
 	<!-- DataSource 등록 -->
 	<beans:bean id="dataSource"
 		class="com.mchange.v2.c3p0.ComboPooledDataSource">

@@ -14,7 +14,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.openproject.openproject.jdbc.JdbcUtil;
 import com.openproject.openproject.model.MemberInfo;
 
 public class MybatisMemberDao {

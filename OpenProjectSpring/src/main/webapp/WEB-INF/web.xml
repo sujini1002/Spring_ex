@@ -29,12 +29,7 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-	<!-- DBCPInit 맵핑 -->
-	<servlet>
-		<servlet-name>DBCPInit</servlet-name>
-		<servlet-class>com.openproject.openproject.jdbc.DBCPInit</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
+	
 	<!-- 한글 깨짐 방지 설정 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>

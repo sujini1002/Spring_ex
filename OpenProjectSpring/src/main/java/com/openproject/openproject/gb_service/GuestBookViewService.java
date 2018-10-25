@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.openproject.openproject.gb_dao.JdbcTemplateMessageDao;
 import com.openproject.openproject.gb_model.Message;
-import com.openproject.openproject.jdbc.ConnectionProvider;
-import com.openproject.openproject.jdbc.JdbcUtil;
 
 public class GuestBookViewService {
 

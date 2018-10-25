@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.openproject.openproject.dao.JdbcTemplateMemberDao;
 import com.openproject.openproject.dao.MemberDaoInterface;
@@ -31,6 +32,7 @@ public class MemberUpdateService {
 	}
 
 	// update수행해줄 메서드
+	@Transactional
 	public int updateMember(MemberInfo memberInfo, HttpServletRequest request)
 			throws IllegalStateException, IOException {
 		memberDao = sqlSessionTemplate.getMapper(MemberDaoInterface.class);

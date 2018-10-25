@@ -10,11 +10,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.openproject.openproject.dao.JdbcTemplateMemberDao;
-import com.openproject.openproject.dao.MemberDao;
 import com.openproject.openproject.dao.MemberDaoInterface;
 import com.openproject.openproject.dao.MybatisMemberDao;
-import com.openproject.openproject.jdbc.ConnectionProvider;
-import com.openproject.openproject.jdbc.JdbcUtil;
 import com.openproject.openproject.model.MemberInfo;
 
 public class MemberLoginService {

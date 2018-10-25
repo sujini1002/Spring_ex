@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.openproject.openproject.dao.MemberDaoInterface;
 import com.openproject.openproject.dao.MybatisMemberDao;
@@ -29,14 +30,12 @@ public class MemberRegService {
 	
 	private MemberDaoInterface memberDao; //인터페이스이므로 주입이 필요 없다
 	
-	
+	@Transactional
 	public int memberReg(MemberInfo memberInfo,HttpServletRequest request) throws SQLException, IllegalStateException, IOException {
 		
 		memberDao = SqlSessionTemplate.getMapper(MemberDaoInterface.class);
 		
 		int resultCnt = 0;
-		
-		
 		
 		//물리적 저장 경로
 		String uploadUri = "/uploadfile/userphoto";
