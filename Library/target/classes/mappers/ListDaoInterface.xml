@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bit.lib.umki.dao.ListDaoInterface">
+
+	<select id="count" resultType="int">
+		select count(*) from freelist
+	</select>
+
+	<select id="getList" resultType="ListInfo">
+		<!-- select * from freelist order by idx desc limit #{num1}, #{num2} -->
+		
+select cnt, fl.idx, list_title, list_date, list_name from (
+select idx, count(*) cnt from freelist_reply group by idx) flr right outer join freelist fl on fl.idx=flr.idx order by idx desc limit #{num1}, #{num2};
+	</select>
+
+	<insert id="write" parameterType="ListInfo">
+		INSERT INTO freelist
+		(list_title,
+		list_content,
+		list_name)
+		VALUES
+		(#{list_title},
+		#{list_content},
+		#{list_name});
+	</insert>
+	
+	<select id="getContent" parameterType="String" resultType="ListInfo">
+	select * from freelist where list_name=#{id} order by idx desc limit 1
+	</select>
+	
+	<select id="getContentIdx" resultType="ListInfo">
+	select * from freelist where idx=#{idx};
+	</select>
+	
+	<update id="update" parameterType="ListInfo">
+	UPDATE freelist SET list_title = '${list_title}', list_content = '${list_content}' WHERE idx = ${idx}
+	</update>
+	
+	<delete id="delete">
+	DELETE FROM freelist WHERE idx=#{idx};
+	</delete>
+	
+	<select id="page" resultType="int">
+	select count(*)+1 from freelist where idx > (select idx from freelist where idx=#{idx})
+	</select>
+	
+	<select id="getSearchList" parameterType="java.lang.String" resultType="ListInfo">
+		select * from (
+		select cnt, fl.idx, list_title, list_content, list_date, list_name from (
+		select idx, count(*) cnt from freelist_reply group by idx) flr right outer join freelist fl on fl.idx=flr.idx order by idx desc) as temp
+		<choose>
+			<when test="select=='titleCon'">
+				where list_title like #{con} or list_content like #{con}
+			</when>
+			<when test="select == 'title'">
+		    	where list_title like #{con}
+			</when>
+			<when test="select == 'writer'">
+			where list_name like #{con}
+			</when>
+		</choose>
+	</select>
+	
+	<select id="getIdx"  resultType="int">
+		select idx from freelist 
+		<choose>
+			<when test="param2 == 'p'.toString()">
+				where idx <![CDATA[<]]> #{param1} order by idx desc limit 0,1
+			</when>
+			<otherwise>
+				where idx <![CDATA[>]]> #{param1} order by idx limit 0,1
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="getIdxNP" resultType="String">
+		select idx from freelist 
+		<choose>
+			<when test="param2 == 'p'.toString()">
+				where idx <![CDATA[<]]> #{param1} order by idx desc limit 0,1
+			</when>
+			<otherwise>
+				where idx <![CDATA[>]]> #{param1} order by idx limit 0,1
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	
+	
+	<!-- 댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글 -->
+	
+	<insert id="replyWrite" parameterType="ReplyInfo">
+		INSERT INTO freelist_reply
+		(idx,
+		replytext,
+		replyer
+		)
+		VALUES
+		(#{idx},
+		#{replytext},
+		#{replyer});
+	</insert>
+	
+	<select id="getReplyContent" resultType="ReplyInfo" parameterType="int">
+		select * from freelist_reply where idx=#{idx}
+	</select>
+	
+	
+	<delete id="replyDelete" parameterType="int">
+		DELETE FROM freelist_reply WHERE r_idx=#{r_idx};
+	</delete>
+	
+	
+	<select id="getReplyList" resultType="ReplyInfo" parameterType="int">
+		select * from freelist_reply where idx=#{idx}
+	</select>
+
+	<update id="replyUpdate">
+		UPDATE freelist_reply SET replytext = #{val} WHERE r_idx = #{r_idx}
+	</update>
+	
+	
+	
+</mapper>

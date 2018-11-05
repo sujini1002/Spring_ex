@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bit.lib.notice.dao.NoticeInterfaceDao">
+	<insert id="insertnotice"
+		parameterType="com.bit.lib.notice.model.NoticeModel">
+		insert into notice
+		values(#{bId},#{bName},#{bTitle},#{bContent},
+		now())
+	</insert>
+	<select id="selectnotice"
+		resultType="com.bit.lib.notice.model.NoticeModel">
+		select * from notice order by bId desc
+	</select>
+	<select id="selectviewLink"
+		resultType="com.bit.lib.notice.model.NoticeModel">
+		select * from notice where bId = #{bId}
+	</select>
+	<delete id="deleteLink">
+	<!-- 	resultType="com.bit.lib.notice.model.NoticeModel"> -->
+		delete  from notice where bId = #{bId}
+	</delete>
+	<update id="update" parameterType="com.bit.lib.notice.model.NoticeModel">
+		update notice set bTitle = #{bTitle}, bContent=#{bContent},bDate=now()  where bId=#{bId}
+	</update>
+</mapper>      
+        
+        
+       

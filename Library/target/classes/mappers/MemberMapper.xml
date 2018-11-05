@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- jo -->
+<!-- http://www.mybatis.org/mybatis-3/ko/sqlmap-xml.html -->
+<mapper namespace="mappers.MemberMapper">
+
+	<insert id="insertMember"
+		parameterType="com.bit.lib.member.model.MemberVO">
+		INSERT INTO `librarydb`.`member` (`member_id`,
+		`password`, `name`, `availAmount`, `phone`, `totborrowDays`,
+		`totoverduedays`, `possibledate`) VALUES (#{member_id}, #{password},
+		#{name}, #{availAmount}, #{phone}, #{totborrowDays},
+		#{totoverduedays}, #{possibledate})
+	</insert>
+
+	<select id="selectOneMember" parameterType="java.lang.String"
+		resultType="com.bit.lib.member.model.MemberVO">
+		SELECT * FROM `librarydb`.`member` WHERE member_id =
+		#{member_id}
+	</select>
+
+	<!-- 확인 -->
+	<select id="selectAllMember"
+		resultType="com.bit.lib.member.model.MemberVO">
+		SELECT * FROM `librarydb`.`member` ORDER BY member_id
+	</select>
+
+	<update id="updateMember"
+		parameterType="com.bit.lib.member.model.MemberVO">
+		UPDATE `librarydb`.`member` SET `password`=#{password},
+		`name`= #{name}, `availAmount`= #{availAmount}, `phone`= #{phone},
+		`totborrowDays`= #{totborrowDays},
+		`totoverduedays`= #{totoverduedays},
+		`possibledate`= #{possibledate} WHERE member_id =
+		#{member_id};
+	</update>
+
+	<delete id="deleteMember">
+		DELETE FROM
+		`librarydb`.`member` WHERE member_id =
+		#{member_id}
+	</delete>
+
+	<!-- 대여 요구사항 -->
+	<select id="selecAlltByPossible"
+		resultType="com.bit.lib.member.model.MemberVO">
+		SELECT member_id, possibledate FROM `librarydb`.`member`
+		WHERE possibledate NOT LIKE 'POSSIBLE' ORDER BY member_id
+	</select>
+
+	<update id="updateByPossible"
+		parameterType="com.bit.lib.member.model.MemberVO">
+		UPDATE `librarydb`.`member` SET
+		possibledate='POSSIBLE' WHERE
+		member_id=#{member_id};
+	</update>
+
+	<update id="updateAvailAmount"
+		parameterType="com.bit.lib.member.model.MemberVO">
+		UPDATE `librarydb`.`member` SET
+		availAmount=#{availAmount}, totborrowDays=#{totborrowDays}, totoverduedays=#{totoverduedays} WHERE
+		member_id=#{member_id};
+	</update>
+
+	<select id="selectSearchMember" parameterType="java.lang.String" resultType="com.bit.lib.member.model.MemberVO">
+		select * from member where member_id LIKE #{member_id} ORDER BY member_id
+
+	</select>
+</mapper>

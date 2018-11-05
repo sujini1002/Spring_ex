@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bit.lib.book.dao.BookInterfaceDao">
+	<insert id="insertBook"
+		parameterType="com.bit.lib.book.model.BookInfo">
+		insert into book
+		values(#{book_code},#{book_isbn},#{book_name},#{book_writer},
+		#{book_publisher},1,#{book_image},#{book_price},now())
+	</insert>
+	<select id="selectAllBook"
+		resultType="com.bit.lib.book.model.BookInfo">
+		select * from book
+		<where>
+			<if test='searchWord.equals("title")'>
+				book_name like CONCAT('%',#{keyword},'%')
+			</if>
+			<if test='searchWord.equals("author")'>
+				AND book_writer like CONCAT('%',#{keyword},'%')
+			</if>
+			<if test='searchWord.equals("publisher")'>
+				AND book_publisher like CONCAT('%',#{keyword},'%')
+			</if>
+			<if test='searchWord.equals("isbn")'>
+				AND book_isbn like CONCAT('%',#{keyword},'%')
+			</if>
+			<if test='searchWord.equals("bookcode")'>
+				AND book_code like CONCAT('%',#{keyword},'%')
+			</if>
+		</where>
+		order by book_time desc
+	</select>
+	<select id="selectBookOrder"
+		parameterType="com.bit.lib.book.model.OrderParam"
+		resultType="com.bit.lib.book.model.BookInfo">
+		select
+		book_code,book_isbn,book_name,book_writer,book_publisher,book_image
+		from book
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="searchWord == 'title'">
+				AND book_name like CONCAT('%',#{keyword},'%')
+			</if>
+			<if test="searchWord == 'author'">
+				AND book_writer like CONCAT('%',#{keyword},'%')
+			</if>
+			<if test="searchWord == 'publisher'">
+				AND book_publisher like CONCAT('%',#{keyword},'%')
+			</if>
+			<if test="searchWord == 'isbn'">
+				AND book_isbn like CONCAT('%',#{keyword},'%')
+			</if>
+			<if test="searchWord == 'bookcode'">
+				AND book_code like CONCAT('%',#{keyword},'%')
+			</if>
+		</trim>
+		group by book_isbn
+		<trim prefix="ORDER BY">
+			<if test="orderBy == 'book_time'"> book_time DESC </if>
+			<if test="orderBy == 'book_name'"> book_name ASC </if>
+			<if test="orderBy == 'book_writer'"> book_writer ASC </if>
+			<if test="orderBy == 'book_publisher'"> book_publisher ASC </if>
+		</trim>
+
+		limit 0,#{listCnt}
+	</select>
+
+	<select id="selectUserBook"
+		parameterType="com.bit.lib.book.model.PageInfo"
+		resultType="com.bit.lib.book.model.BookInfo">
+		select
+		book_isbn,book_code,book_name,book_writer,book_image,book_publisher
+		from book
+		where (book_name like CONCAT('%',#{keyword},'%') OR
+		book_writer like
+		CONCAT('%',#{keyword},'%') OR
+		book_publisher like
+		CONCAT('%',#{keyword},'%'))
+		group by book_isbn
+		order by book_name
+		limit
+		#{startRowNum},#{pagePerNum}
+	</select>
+
+	<update id="updateBook_exist"
+		parameterType="com.bit.lib.book.model.BookInfo">
+		update book set book_exist= #{book_exist} where
+		book_code=#{book_code}
+	</update>
+
+	<delete id="deleteBook">
+		delete from book where book_code = #{book_code}
+	</delete>
+	<select id="bookBorrowOK" resultType="int">
+		select count(*) from book
+		where book_isbn = #{book_isbn} AND book_exist = 1
+	</select>
+	<select id="afterDelete"
+		resultType="com.bit.lib.book.model.BookInfo">
+		select * from book order by book_time desc limit 0,10
+	</select>
+	<select id="selectNewTopTen"
+		resultType="com.bit.lib.book.model.BookInfo">
+		select * from book
+		group by book_isbn
+		order by book_time desc
+		limit 0,10
+	</select>
+	<select id="selectAllBookList"
+		parameterType="com.bit.lib.book.model.PageInfo"
+		resultType="com.bit.lib.book.model.BookInfo">
+		select * from book
+		order by book_time desc
+		limit
+		#{startRowNum},#{pagePerNum}
+	</select>
+	<select id="bookCodeCheck" resultType="int">
+		select count(*) from book
+		where book_code = #{book_code}
+	</select>
+	<select id="bookCodeSelect"
+		resultType="com.bit.lib.book.model.BookInfo">
+		select book_code,book_exist
+		from book
+		where book_isbn =
+		#{book_isbn}
+	</select>
+	<select id="bookCountAll" resultType="int">
+		select count(*) from book
+	</select>
+	<select id="bookCountGroupByAll" resultType="int">
+		select count(DISTINCT book_isbn)
+		from book
+		where 
+		 book_name like CONCAT('%',#{keyword},'%') OR
+	     book_writer like CONCAT('%',#{keyword},'%') OR
+	 	 book_publisher like CONCAT('%',#{keyword},'%')
+	</select>
+	
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- jo -->
+<!-- http://www.mybatis.org/mybatis-3/ko/sqlmap-xml.html -->
+<mapper namespace="mappers.AdminMapper">
+
+	<insert id="insertAdmin"
+		parameterType="com.bit.lib.admin.model.AdminVO">
+		INSERT INTO `librarydb`.`admin` (`admin_id`, `password`,
+		`permission`) VALUES (#{admin_id}, #{password}, #{permission})
+	</insert>
+
+	<!-- selects -->
+	<select id="selectAdmin" parameterType="com.bit.lib.admin.model.AdminVO" resultType="com.bit.lib.admin.model.AdminVO">
+		SELECT * FROM `librarydb`.`admin` 
+		<if test="admin_id != null">
+			WHERE admin_id = #{admin_id}
+		</if>
+		ORDER BY admin_id
+	</select>
+
+	<!-- <select id="selectOneAdmin" parameterType="java.lang.String"
+		resultType="com.bit.lib.admin.model.AdminVO">
+		SELECT * FROM `librarydb`.`admin` WHERE admin_id =
+		#{admin_id}
+	</select>
+
+	<select id="selectAllAdmin"
+		resultType="com.bit.lib.admin.model.AdminVO">
+		SELECT * FROM `librarydb`.`admin` ORDER BY admin_id
+	</select> -->
+
+	<select id="selectAllAdminId" resultType="java.lang.String">
+		SELECT admin_id FROM
+		`librarydb`.`admin` ORDER BY admin_id
+	</select> 
+	<!-- selects -->
+	<update id="updateAdmin"
+		parameterType="com.bit.lib.admin.model.AdminVO">
+		UPDATE `librarydb`.`admin` SET `password`=#{password},
+		`permission`= #{permission} WHERE admin_id = #{admin_id}
+	</update>
+
+	<delete id="deleteAdmin">
+		DELETE FROM
+		`librarydb`.`admin` WHERE admin_id =
+		#{admin_id}
+	</delete>
+
+	<select id="selectPermissionDetail"
+		resultType="java.lang.String">
+		SELECT permissionDetail FROM `librarydb`.`adminPermission`
+		ORDER BY permissionCode
+	</select>
+</mapper>
