@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans
-	xmlns="http://www.springframework.org/schema/mvc"
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	<interceptors>
@@ -58,14 +59,14 @@
 
 	<!-- DataSource 등록 -->
 	<beans:bean id="dataSource"
-		class="com.mchange.v2.c3p0.ComboPooledDataSource">
-		<beans:property name="driverClass"
-			value="oracle.jdbc.driver.OracleDriver" />
-		<beans:property name="jdbcUrl"
-			value="jdbc:oracle:thin:@localhost:1521:orcl" />
-		<beans:property name="user" value="scott" />
-		<beans:property name="password" value="1234" />
-	</beans:bean>
+      class="com.mchange.v2.c3p0.ComboPooledDataSource">
+      <beans:property name="driverClass"
+         value="com.mysql.jdbc.Driver" />
+      <beans:property name="jdbcUrl"
+         value="jdbc:mysql://open.cb5wglg4igdv.ap-northeast-2.rds.amazonaws.com/openproject?characterEncoding=utf8" />
+      <beans:property name="user" value="master" />
+      <beans:property name="password" value="bit12345" />
+   </beans:bean>
 	<beans:bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<beans:property name="dataSource" ref="dataSource" />

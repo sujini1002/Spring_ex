@@ -13,6 +13,7 @@
 	<table border="1">
 		<form method="post" enctype="multipart/form-data">
 		<tr>
+
 			<td>아이디</td>
 			<td><input type="text" name="userId" value="${memberInfo.userId}" readonly></td>
 
