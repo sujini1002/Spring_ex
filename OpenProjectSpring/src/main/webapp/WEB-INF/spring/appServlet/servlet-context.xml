@@ -63,9 +63,9 @@
       <beans:property name="driverClass"
          value="com.mysql.jdbc.Driver" />
       <beans:property name="jdbcUrl"
-         value="jdbc:mysql://open.cb5wglg4igdv.ap-northeast-2.rds.amazonaws.com/openproject?characterEncoding=utf8" />
-      <beans:property name="user" value="master" />
-      <beans:property name="password" value="bit12345" />
+         value="jdbc:mysql://codespace.cdsolxxcq1w4.ap-northeast-2.rds.amazonaws.com/sujin?characterEncoding=utf8" />
+      <beans:property name="user" value="sujini" />
+      <beans:property name="password" value="Bitcamp!123456" />
    </beans:bean>
 	<beans:bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

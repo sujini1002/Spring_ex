@@ -4,7 +4,6 @@
 <mapper namespace="com.openproject.openproject.mapper.mybatis.MemberMapper">
 	<insert id="insertMember"
 		parameterType="com.openproject.openproject.model.MemberInfo"
-		useGeneratedKeys="true" keyProperty="idx"
 	>
 		insert into member_spring 
 		values(#{userId},#{userPw},#{userName},#{userPhoto})

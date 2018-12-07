@@ -24,9 +24,9 @@ public class JdbcTemplateMessageDao {
 
 	@Transactional
 	public int insertMessage(Message message) throws Exception {
-		String sql = "insert into member_guest values(msg_id.nextval,?,?,?)";
+		String sql = "insert into member_guest(userid,password,message) values(?,?,?)";
 		
-		int resultCnt = jdbcTemplate.update(sql, message.getUserId(), message.getPassword(), message.getMessage());
+		int resultCnt = jdbcTemplate.update(sql,message.getUserId(), message.getPassword(), message.getMessage());
 		return resultCnt;
 	}
 	/*KeyHolder keyholder = new GeneratedKeyHolder();
@@ -48,11 +48,8 @@ public class JdbcTemplateMessageDao {
 
 	public List<Message> selectList(int firstRow, int endRow) throws SQLException {
 
-		String sql = "select messageid, userid, password, message from ( "
-				+ " select rownum rnum, messageid, userid, password, message from ( "
-				+ " select * from member_guest m order by m.messageid desc " + " ) where rownum <= ? "
-				+ ") where rnum >= ?";
-		List<Message> messageList = jdbcTemplate.query(sql, new GuestMapper(), endRow, firstRow);
+		String sql = "select * from member_guest limit ?,?";
+		List<Message> messageList = jdbcTemplate.query(sql, new GuestMapper(), firstRow, endRow);
 		return messageList;
 	}
 
